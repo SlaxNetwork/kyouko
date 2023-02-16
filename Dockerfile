@@ -5,7 +5,6 @@ WORKDIR /build
 
 COPY tsconfig.json ./tsconfig.json
 COPY package.json ./package.json
-COPY package-lock.json ./package-lock.json
 
 COPY prisma ./prisma
 COPY src ./src
@@ -21,7 +20,6 @@ FROM node:19
 WORKDIR /app
 
 COPY package.json ./package.json
-COPY package-lock.json ./package-lock.json
 
 # RUN npm install --production
 
