@@ -22,5 +22,5 @@ If you want to contribute to our project read our [Contributing Guidelines](http
 
 # Technologies
 
-Kyouko, uses [TypeScript](https://www.typescriptlang.org/) to handle routing and requests to our backend service, we use [PostgreSQL](https://www.postgresql.org/)
+Kyouko, uses [routing-controllers](https://github.com/typestack/routing-controllers) to handle routing and requests to our backend service, we use [PostgreSQL](https://www.postgresql.org/)
 to manage persistent data and [Prisma](https://www.prisma.io/) to interface with that persisted data in our service.
