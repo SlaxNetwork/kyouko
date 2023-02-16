@@ -5,7 +5,7 @@
 </a>
 
 <p align="center">
-    <strong>Kyouko, a backend built with Ktor.</strong>
+    <strong>Kyouko, a backend built with TypeScript.</strong>
 </p>
 
 ---
@@ -22,5 +22,5 @@ If you want to contribute to our project read our [Contributing Guidelines](http
 
 # Technologies
 
-Kyouko, uses [Ktor](https://ktor.io/) to handle routing and requests to our backend service, we use [MongoDB](https://www.mongodb.com/)
-to manage persistent data and [KMongo](https://litote.org/kmongo/) to interface with that persisted data in our service.
+Kyouko, uses [TypeScript](https://www.typescriptlang.org/) to handle routing and requests to our backend service, we use [PostgreSQL](https://www.postgresql.org/)
+to manage persistent data and [Prisma](https://www.prisma.io/) to interface with that persisted data in our service.
