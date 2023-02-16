@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Profile {
+    id                   String                @id @unique @db.Uuid
+    settings             ProfileSettings       @relation(fields: [profileSettingsId], references: [id])
+    cookieClickerProfile CookieClickerProfile? @relation(fields: [cookieClickerProfileId], references: [id])
+    rank                 Rank                  @relation(fields: [rankId], references: [id])
+
+    profileSettingsId      Int
+    cookieClickerProfileId Int?
+    rankId                 String @default("default")
+}
+
+model ProfileSettings {
+    id Int @id @unique @default(autoincrement())
+
+    language String    @default("en_us")
+    Profile  Profile[]
+}
+
+model Rank {
+    id     String @id @unique
+    name   String
+    prefix String @db.Char()
+
+    Profile Profile[]
+}
+
+model CookieClickerProfile {
+    id Int @id @unique @default(autoincrement())
+
+    cookies Int       @default(0)
+    Profile Profile[]
+}
