@@ -7,13 +7,6 @@ name: Build and publish
 
 on:
   workflow_dispatch:
-  
-  push:
-    branches: [ "main" ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ "" ]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -24,7 +17,6 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    needs: build_publish
     steps:
       - name: Re-deploy API
         uses: appleboy/ssh-action@master
