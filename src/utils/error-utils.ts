@@ -10,7 +10,7 @@ type Error = {
  * @param obj Object to check.
  * @returns whether the object is an {@link HttpError}.
  */
-function isHttpError(obj: any): boolean {
+function isHttpError(obj: any): obj is HttpError {
     return Object.hasOwn(obj, "httpCode") && Object.hasOwn(obj, "message");
 }
 
