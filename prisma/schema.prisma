@@ -29,9 +29,10 @@ model ProfileSettings {
 }
 
 model Rank {
-    id     String @id @unique
-    name   String
-    prefix String @db.Char()
+    id   String @id @unique
+    name String
+
+    prefixId String
 
     Profile Profile[]
 }
