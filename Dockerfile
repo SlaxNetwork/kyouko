@@ -10,6 +10,7 @@ COPY prisma ./prisma
 COPY src ./src
 
 RUN npm install && npm install typescript -g
+RUN npx prisma generate
 
 RUN tsc -b
 
@@ -28,5 +29,5 @@ COPY --from=0 /build/dist ./dist
 
 EXPOSE 3000
 
-RUN npx prisma generate
+# RUN npx prisma generate
 CMD [ "npm", "run", "start:migrate:prod" ]
