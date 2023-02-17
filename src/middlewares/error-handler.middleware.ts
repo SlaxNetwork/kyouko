@@ -7,13 +7,11 @@ import { Service } from "typedi";
 class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
     error(error: any, request: any, response: any, next: (err?: any) => any): void {
         if (isHttpError(error)) {
-            const httpError = error as HttpError;
-
-            response.status(httpError.httpCode);
+            response.status(error.httpCode);
             response.send({
                 error: true,
-                status: httpError.httpCode || 500,
-                message: httpError.message || undefined
+                status: error.httpCode || 500,
+                message: error.message || undefined
             });
         } else {
             response.status(500);
