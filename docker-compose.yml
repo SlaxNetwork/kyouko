@@ -8,7 +8,7 @@ services:
     image: ghcr.io/slaxnetwork/kyouko:main
     build: .
     ports:
-      - '3000:3000'
+      - '3002:3000'
     depends_on:
       - postgres
       - redis
