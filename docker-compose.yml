@@ -1,0 +1,43 @@
+version: '3'
+
+volumes:
+  data:
+
+services:
+  kyouko:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    environment:
+      PORT: 3000
+      PRIVATE_KEY: KYOUKO
+      DATABASE_URL: postgres://root:password@postgres:5432/slax
+      REDIS_URL: redis://redis:6379
+      DEV: true
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: slax
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - data:/var/lib/postgressql/data
+  
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - data:/var/lib/redis/data

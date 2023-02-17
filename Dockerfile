@@ -23,9 +23,10 @@ COPY package.json ./package.json
 
 # RUN npm install --production
 
+COPY --from=0 /build/prisma ./prisma
 COPY --from=0 /build/node_modules ./node_modules
 COPY --from=0 /build/dist ./dist
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start:migrate:prod" ]

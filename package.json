@@ -4,6 +4,9 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
+    "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod",
+    "start:prod": "node .",
+
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "build": "npx tsc"
