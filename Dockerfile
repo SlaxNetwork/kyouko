@@ -18,6 +18,7 @@ FROM node:19
 
 WORKDIR /app
 
+COPY configs ./configs
 COPY package.json ./package.json
 
 RUN npm install --production

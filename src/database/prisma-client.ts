@@ -15,7 +15,7 @@ async function createPrismaDefaults() {
                 data: {
                     id: "default",
                     name: "Default",
-                    prefix: "b"
+                    prefixId: "rank_default"
                 }
             });
         }
