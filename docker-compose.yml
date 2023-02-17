@@ -5,6 +5,7 @@ volumes:
 
 services:
   kyouko:
+    image: ghcr.io/slaxnetwork/kyouko:main
     build: .
     ports:
       - '3000:3000'
