@@ -29,5 +29,5 @@ COPY --from=0 /build/dist ./dist
 
 EXPOSE 3000
 
-# RUN npx prisma generate
+RUN npx prisma generate
 CMD [ "npm", "run", "start:migrate:prod" ]
