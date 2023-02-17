@@ -2,8 +2,7 @@ version: '3'
 
 volumes:
   data:
-    external: true
-    name: shared-data
+
 services:
   kyouko:
     image: ghcr.io/slaxnetwork/kyouko:main
