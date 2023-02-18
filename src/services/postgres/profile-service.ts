@@ -35,7 +35,8 @@ class ProfileService {
                 profileSettingsId: settings.id
             },
             include: {
-                settings: true
+                settings: true,
+                rank: true
             }
         });
     }
@@ -53,7 +54,8 @@ class ProfileService {
         const profile = await prisma.profile.findFirst({
             where: { id: uuid },
             include: {
-                settings: true
+                settings: true,
+                rank: true
             }
         });
 
