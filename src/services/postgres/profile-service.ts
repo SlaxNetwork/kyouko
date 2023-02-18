@@ -33,6 +33,9 @@ class ProfileService {
             data: {
                 id: mojangProfile.uuid,
                 profileSettingsId: settings.id
+            },
+            include: {
+                settings: true
             }
         });
     }
@@ -48,7 +51,10 @@ class ProfileService {
         }
 
         const profile = await prisma.profile.findFirst({
-            where: { id: uuid }
+            where: { id: uuid },
+            include: {
+                settings: true
+            }
         });
 
         if (!profile) {
