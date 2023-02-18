@@ -15,6 +15,13 @@ import redis from "./database/redis-client";
 useContainer(Container);
 
 async function bootstrap() {
+    if (process.env.PRIVATE_KEY == "KYOUKO" && process.env.DEV == "false") {
+        console.error(
+            `KYOUKO was used as the private key while not in a development enviornment, shutting down for security.`
+        );
+        throw "Cannot use development key KYOUKO in production.";
+    }
+
     await prisma.$connect();
     await redis.connect();
 
@@ -32,13 +39,13 @@ async function bootstrap() {
         defaultErrorHandler: false,
         classTransformer: true,
         validation: {
-            enableDebugMessages: process.env.DEV,
+            enableDebugMessages: process.env.DEV == "true",
             forbidUnknownValues: true,
             whitelist: true,
             forbidNonWhitelisted: true
         },
 
-        development: process.env.DEV,
+        development: process.env.DEV == "true",
 
         defaults: {
             nullResultCode: 404,
@@ -61,8 +68,14 @@ async function bootstrap() {
 
 bootstrap().catch(async (err) => {
     console.error(err);
-    await prisma.$disconnect();
-    await redis.disconnect();
+
+    // safely close processes.
+    try {
+        await prisma.$disconnect();
+    } catch (_) {}
+    try {
+        await redis.disconnect();
+    } catch (_) {}
 
     process.exit(1);
 });

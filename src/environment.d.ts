@@ -10,7 +10,7 @@ declare global {
 
             PORT: number;
 
-            DEV: boolean;
+            DEV: string;
         }
     }
 }
