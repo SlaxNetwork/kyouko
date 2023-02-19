@@ -33,6 +33,7 @@ model Rank {
     name String
 
     prefixId String
+    color    String @default("#FFFFFF") @db.VarChar(7)
 
     Profile Profile[]
 }

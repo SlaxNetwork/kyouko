@@ -1,4 +1,3 @@
-import fs from "fs";
 import { loadConfig } from "./config-utils";
 
 type IconsConfig = {
