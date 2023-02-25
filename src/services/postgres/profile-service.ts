@@ -65,6 +65,25 @@ class ProfileService {
 
         return profile;
     }
+
+    async updateLanguage(uuid: string, language: string): Promise<boolean> {
+        if (!isUUID(uuid)) {
+            throw "invalid uid passed AAA.";
+        }
+
+        try {
+            await prisma.profile.update({
+                where: { id: uuid },
+                data: {
+                    settings: { update: { language: language } }
+                }
+            });
+
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
 }
 
 export { ProfileService };

@@ -18,7 +18,7 @@ async function bootstrap() {
     // check to make sure development private key is not being used in prod.
     if (process.env.PRIVATE_KEY == "KYOUKO" && process.env.DEV == "false") {
         console.error(
-            `KYOUKO was used as the private key while not in a development enviornment, shutting down for security.`
+            `KYOUKO was used as the private key while not in a development envrionment, shutting down for security.`
         );
         throw "Cannot use development key KYOUKO in production.";
     }
@@ -46,7 +46,7 @@ async function bootstrap() {
             forbidNonWhitelisted: true
         },
 
-        development: process.env.DEV == "true",
+        // development: process.env.DEV == "true",
 
         defaults: {
             nullResultCode: 404,

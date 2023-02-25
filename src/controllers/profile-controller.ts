@@ -1,8 +1,8 @@
-import { Authorized, Get, JsonController, QueryParams } from "routing-controllers";
+import { Authorized, Get, JsonController, Patch, QueryParams } from "routing-controllers";
 import { httpError } from "../utils/error-utils";
 import { Profile } from "@prisma/client";
 import { notFoundError } from "./errors/generc.error";
-import { IsOptional, IsString, IsUUID } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsUUID, Min } from "class-validator";
 import { Service } from "typedi";
 import { ProfileService } from "../services/postgres/profile-service";
 import { RedisService } from "../services/redis/redis-service";
@@ -15,6 +15,16 @@ class GetProfileQuery {
     @IsString()
     @IsOptional()
     username?: string;
+}
+
+class UpdateLanguageQuery {
+    @IsString()
+    @IsOptional()
+    uuid!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    language!: string;
 }
 
 @JsonController("/profiles")
@@ -50,6 +60,19 @@ class ProfileController {
         }
 
         return profile;
+    }
+
+    @Patch("/language")
+    async updateLanguage(@QueryParams() query: UpdateLanguageQuery) {
+        const { uuid, language } = query;
+
+        const success = await this.profileService.updateLanguage(uuid, language);
+        if (!success) {
+            throw httpError({
+                httpCode: 400,
+                message: "failed to update language."
+            });
+        }
     }
 }
 
