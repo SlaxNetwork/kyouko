@@ -18,12 +18,12 @@ class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
             response.status(500);
 
             // use the error as the message if its a string.
-            let message = isString(error) ? error : "Internal server error.";
+            let errorMessage = isString(error) ? error : "Internal server error.";
 
             response.send({
                 error: true,
                 status: 500,
-                message: message
+                message: errorMessage
             });
         }
 
