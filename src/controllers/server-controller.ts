@@ -1,18 +1,8 @@
-import { Authorized, Body, BodyParam, Delete, Get, JsonController, Post } from "routing-controllers";
-import { Server, ServerService, ServerType } from "../services/memory/server-service";
-import { IsNumber, IsOptional, IsString, Validate, ValidationArguments } from "class-validator";
+import { Authorized, Body, BodyParam, Delete, Get, JsonController, Param, Post, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
-
-class ServerBody {
-    @IsString()
-    ip!: string;
-
-    @IsNumber()
-    port!: number;
-
-    @IsString()
-    type!: ServerType;
-}
+import { ServerService } from "../services/redis/server-service";
+import { IsNumber, IsString } from "class-validator";
+import { CreateServerBody } from "./requests/server-requests";
 
 @JsonController("/servers")
 @Authorized()
@@ -20,20 +10,20 @@ class ServerBody {
 class ServerController {
     constructor(private serverService: ServerService) {}
 
-    @Get()
-    getServers() {
-        return this.serverService.getAll();
-    }
-
     @Post()
-    addServer(@Body() server: ServerBody) {
-        return this.serverService.create(server);
+    createServer(@Body() body: CreateServerBody) {
+        this.serverService.createServerInstance(body);
     }
 
     @Delete()
-    removeServer(@BodyParam("ip") ip: string, @BodyParam("port") port: number) {
-        return this.serverService.remove(ip, port);
+    removeServer(@QueryParam("instanceId") instanceId: string) {
+        this.serverService.deleteServerInstance(instanceId);
+    }
+
+    @Get()
+    getAll() {
+        return this.serverService.getServerInstances();
     }
 }
 
-export { ServerController, ServerBody };
+export { ServerController };
