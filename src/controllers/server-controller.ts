@@ -1,7 +1,6 @@
-import { Authorized, Body, BodyParam, Delete, Get, JsonController, Param, Post, QueryParam } from "routing-controllers";
+import { Authorized, Body, BodyParam, Delete, Get, JsonController, Patch, Post, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
 import { ServerService } from "../services/redis/server-service";
-import { IsNumber, IsString } from "class-validator";
 import { CreateServerBody } from "./requests/server-requests";
 
 @JsonController("/servers")
@@ -23,6 +22,11 @@ class ServerController {
     @Get()
     getAll() {
         return this.serverService.getServerInstances();
+    }
+
+    @Patch("/player_count")
+    updatePlayerCount(@QueryParam("instanceId") instanceId: string, @BodyParam("players") players: number) {
+        this.serverService.updatePlayerCount(instanceId, players);
     }
 }
 

@@ -3,6 +3,7 @@ import redis from "../../database/redis-client";
 import { httpError } from "../../utils/error-utils";
 import { CreateServerBody, ServerType } from "../../controllers/requests/server-requests";
 import { generateRandomString } from "../../utils/string-utils";
+import { notFoundError } from "../../controllers/errors/generc.error";
 
 type ServerInstance = {
     ip: string;
@@ -31,7 +32,7 @@ class ServerService {
             }
 
             const id = generateRandomString(12);
-            if (await redis.sIsMember("server:instances", id)) {
+            if (await this.doesInstanceExist(id)) {
                 return generateInstanceId(fails++);
             }
 
@@ -46,6 +47,7 @@ class ServerService {
         await redis.hSet(redisKey, "ip", ip);
         await redis.hSet(redisKey, "port", port);
         await redis.hSet(redisKey, "type", type);
+        await redis.hSet(redisKey, "players", 0);
 
         return instanceId;
     }
@@ -61,6 +63,14 @@ class ServerService {
         await redis.del(redisKey);
     }
 
+    async updatePlayerCount(instanceId: string, players: number): Promise<void> {
+        if (!this.doesInstanceExist(instanceId)) {
+            throw notFoundError;
+        }
+
+        await redis.hSet(`server:${instanceId}`, "players", players);
+    }
+
     /**
      * Find a instance based on its id.
      * @param id Instance id.
@@ -74,6 +84,10 @@ class ServerService {
         }
 
         return instance as unknown as ServerInstance;
+    }
+
+    async doesInstanceExist(id: string): Promise<boolean> {
+        return await redis.sIsMember("server:instances", id);
     }
 
     /**
