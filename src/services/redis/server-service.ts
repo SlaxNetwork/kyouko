@@ -1,21 +1,44 @@
 import { Service } from "typedi";
 import redis from "../../database/redis-client";
 import { httpError } from "../../utils/error-utils";
-import { isNotEmptyObject, isNumber } from "class-validator";
-import { CreateServerBody } from "../../controllers/requests/server-requests";
+import { CreateServerBody, ServerType } from "../../controllers/requests/server-requests";
+import { generateRandomString } from "../../utils/string-utils";
 
 type ServerInstance = {
     ip: string;
     port: number;
+    type: ServerType;
 };
 
 @Service()
 class ServerService {
-    // TODO: Switch to random ids.
-    private tmpNumber: number = 0;
-
+    /**
+     * Register a new server instance.
+     * @param param0 Server properties.
+     * @returns The instance id.
+     */
     async createServerInstance({ ip, port, type }: CreateServerBody): Promise<string> {
-        const instanceId = (this.tmpNumber++).toString();
+        /**
+         * Generate a instance id that is not already in use.
+         * @returns The instance id.
+         */
+        const generateInstanceId = async (fails: number = 0): Promise<string> => {
+            if (fails > 5) {
+                throw httpError({
+                    message: "failed to generate id after 5 tries",
+                    httpCode: 500
+                });
+            }
+
+            const id = generateRandomString(12);
+            if (await redis.sIsMember("server:instances", id)) {
+                return generateInstanceId(fails++);
+            }
+
+            return id;
+        };
+
+        const instanceId = await generateInstanceId();
 
         await redis.sAdd(`server:instances`, instanceId);
 
@@ -27,6 +50,10 @@ class ServerService {
         return instanceId;
     }
 
+    /**
+     * Delete a server instance from the registry.
+     * @param instanceId Instance id.
+     */
     async deleteServerInstance(instanceId: string) {
         await redis.sRem(`server:instances`, instanceId);
 
@@ -34,6 +61,11 @@ class ServerService {
         await redis.del(redisKey);
     }
 
+    /**
+     * Find a instance based on its id.
+     * @param id Instance id.
+     * @returns {ServerInstance} {@link ServerInstance} or {@link null} if none was found.
+     */
     async findServerInstanceById(id: string): Promise<ServerInstance | null> {
         const instance = await redis.hGetAll(`server:${id}`);
 
@@ -44,6 +76,9 @@ class ServerService {
         return instance as unknown as ServerInstance;
     }
 
+    /**
+     * @returns All registered server instances.
+     */
     async getServerInstances(): Promise<ServerInstance[]> {
         const instances: ServerInstance[] = [];
 
