@@ -6,6 +6,7 @@ import { SessionController } from "./session-controller";
 import { ServerController } from "./server-controller";
 import { IconController } from "./icon-controller";
 import { RankController } from "./rank-controller";
+import { HealthController } from "./health-controller";
 
 export default [
     ProfileController,
@@ -13,5 +14,6 @@ export default [
     SessionController,
     ServerController,
     IconController,
-    RankController
+    RankController,
+    HealthController
 ];
