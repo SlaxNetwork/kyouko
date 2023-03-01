@@ -18,7 +18,7 @@ class ServerService {
      * @param param0 Server properties.
      * @returns The instance id.
      */
-    async createServerInstance({ ip, port, type }: CreateServerBody): Promise<string> {
+    async registerServerInstance({ ip, port, type }: CreateServerBody): Promise<string> {
         /**
          * Generate a instance id that is not already in use.
          * @returns The instance id.

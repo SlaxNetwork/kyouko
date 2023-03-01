@@ -1,7 +1,7 @@
 import { Authorized, Body, BodyParam, Delete, Get, JsonController, Patch, Post, QueryParam } from "routing-controllers";
 import { Service } from "typedi";
 import { ServerService } from "../services/redis/server-service";
-import { CreateServerBody } from "./requests/server-requests";
+import { CreateServerBody as RegisterServerBody } from "./requests/server-requests";
 
 @JsonController("/servers")
 @Authorized()
@@ -10,8 +10,8 @@ class ServerController {
     constructor(private serverService: ServerService) {}
 
     @Post()
-    createServer(@Body() body: CreateServerBody) {
-        this.serverService.createServerInstance(body);
+    async registerServer(@Body() body: RegisterServerBody) {
+        return this.serverService.registerServerInstance(body);
     }
 
     @Delete()
