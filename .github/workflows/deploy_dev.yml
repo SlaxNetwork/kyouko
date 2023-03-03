@@ -1,0 +1,32 @@
+name: Deploy to production
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  workflow_dispatch:
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-deploy API
+        uses: appleboy/ssh-action@master
+        env:
+          GITHUB_USERNAME: ${{ secrets.USERNAME }}
+          GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.DEV_DEPLOY_HOST }}
+          port: ${{ secrets.DEV_DEPLOY_PORT }}
+          username: ${{ secrets.DEV_DEPLOY_USER }}
+          key: ${{ secrets.DEV_DEPLOY_KEY }}
+          script: |
+            wget -O -  "https://raw.githubusercontent.com/SlaxNetwork/kyouko/main/deploy.sh" | sudo bash
