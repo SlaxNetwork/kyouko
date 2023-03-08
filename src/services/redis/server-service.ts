@@ -77,11 +77,11 @@ class ServerService {
      * @returns {ServerInstance} {@link ServerInstance} or {@link null} if none was found.
      */
     async findServerInstanceById(id: string): Promise<ServerInstance | null> {
-        const instance = await redis.hGetAll(`server:${id}`);
-
-        if (!("ip" in instance)) {
+        if (!(await this.doesInstanceExist(id))) {
             return null;
         }
+
+        const instance = await redis.hGetAll(`server:${id}`);
 
         return instance as unknown as ServerInstance;
     }
