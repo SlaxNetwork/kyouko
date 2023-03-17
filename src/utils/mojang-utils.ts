@@ -9,21 +9,12 @@ type SimpleMojangProfile = {
  * @returns {SimpleMojangProfile} {@link SimpleMojangProfile} or null if an error has occurred.
  */
 async function getMojangProfile(query: string): Promise<SimpleMojangProfile | null> {
-    const url = new URL(`https://api.ashcon.app/mojang/v2/user/${query}`);
-
-    const res = await fetch(url).catch(() => {
+    const res = await fetch(`https://api.ashcon.app/mojang/v2/user/${query}`).then(res => res.json()).catch(() => {
         return null;
     });
-
-    if (!res) {
-        return null;
+    if (!res.error) {
+        return res;
     }
-
-    const json = await res.json();
-    if (!json.error) {
-        return json;
-    }
-
     return null;
 }
 
