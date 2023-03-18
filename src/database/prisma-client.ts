@@ -1,28 +1,25 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+export default prisma;
 
-async function createPrismaDefaults() {
-    const createDefaultRank = async () => {
-        const rank = await prisma.rank.findFirst({
-            where: {
-                id: "default"
-            }
-        });
-
-        if (!rank) {
-            await prisma.rank.create({
-                data: {
-                    id: "default",
-                    name: "Default",
-                    prefixId: "rank_default"
-                }
-            });
+async function createDefaultRank() {
+    await prisma.rank.upsert({
+        where: {
+            id: 'default'
+        },
+        update: {
+            name: "Default",
+            prefixId: "rank_default"
+        },
+        create: {
+            id: "default",
+            name: "Default",
+            prefixId: "rank_default"
         }
-    };
-
-    await createDefaultRank();
+    });
 }
 
-export { createPrismaDefaults };
-export default prisma;
+export async function createPrismaDefaults() {
+    await createDefaultRank();
+}

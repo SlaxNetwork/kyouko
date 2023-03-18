@@ -4,6 +4,7 @@ import { httpError } from "../../utils/error-utils";
 import { isUUID } from "class-validator";
 import { Service } from "typedi";
 import prisma from "../../database/prisma-client";
+import { NotFoundError, BadRequestError } from "routing-controllers";
 
 /**
  * Generic database actions on {@link Profile}.
@@ -18,12 +19,7 @@ class ProfileService {
     private async create(uuid: string): Promise<Profile> {
         const mojangProfile = await getMojangProfile(uuid);
 
-        if (!mojangProfile) {
-            throw httpError({
-                message: `could not get profile for ${uuid}`,
-                httpCode: 404
-            });
-        }
+        if (!mojangProfile) throw new NotFoundError(`could not get profile for ${uuid}`);
 
         const settings = await prisma.profileSettings.create({
             data: {}
@@ -43,13 +39,11 @@ class ProfileService {
 
     /**
      * Find a profile based on a UUID.
-     * @param uuid Id to query by.
-     * @returns {Profile} {@link Profile} or null if none matches the query.
+     * @param uuid UUID to query by.
+     * @returns {Profile} {@link Profile}
      */
-    async findByUUID(uuid: string): Promise<Profile | null> {
-        if (!isUUID(uuid)) {
-            throw "invalid uid passed.";
-        }
+    async findByUUID(uuid: string): Promise<Profile> {
+        if (!isUUID(uuid)) throw new BadRequestError("Invalid UUID passed.");
 
         const profile = await prisma.profile.findFirst({
             where: { id: uuid },
