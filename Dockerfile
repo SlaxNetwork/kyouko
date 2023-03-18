@@ -1,5 +1,5 @@
 # build
-FROM node:lts
+FROM node:19
 
 WORKDIR /build
 
@@ -15,7 +15,7 @@ RUN npx prisma generate
 RUN tsc -b
 
 # run
-FROM node:lts
+FROM node:19
 
 WORKDIR /app
 
