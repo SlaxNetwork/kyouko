@@ -1,5 +1,4 @@
-import { Authorized, Body, Delete, Get, JsonController, Patch, Post, QueryParam } from "routing-controllers";
-import { alreadyExistsError, notFoundError } from "./errors/generc.error";
+import { Authorized, Body, Delete, Get, JsonController, Patch, Post, QueryParam, NotFoundError, HttpError } from "routing-controllers";
 import { IsString } from "class-validator";
 import { Service } from "typedi";
 import { SessionService } from "../services/memory/session-service";
@@ -24,9 +23,7 @@ class SessionController {
     @Get()
     async getSession(@QueryParam("uuid") uuid: string) {
         const session = this.sessionService.findByUUID(uuid);
-        if (!session) {
-            throw notFoundError;
-        }
+        if (!session) throw new NotFoundError("resource not found");
 
         return session;
     }
@@ -34,7 +31,7 @@ class SessionController {
     @Post()
     async createSession(@QueryParam("uuid") uuid: string, @Body() body: CreateSessionBody) {
         if (this.sessionService.findByUUID(uuid)) {
-            throw alreadyExistsError;
+            throw new HttpError(409, "already exists");
         }
 
         this.sessionService.create(uuid, body.serverName);
@@ -44,11 +41,7 @@ class SessionController {
 
     @Delete()
     async deleteSession(@QueryParam("uuid") uuid: string) {
-        if (!this.sessionService.remove(uuid)) {
-            throw notFoundError;
-        }
-
-        return;
+        if (!this.sessionService.remove(uuid)) throw new NotFoundError("resource not found");
     }
 
     @Patch("/update-server")
