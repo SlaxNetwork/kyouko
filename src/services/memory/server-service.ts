@@ -1,6 +1,6 @@
 import { Service } from "typedi";
 import { ServerBody } from "../../controllers/server-controller";
-import { httpError } from "../../utils/error-utils";
+import { BadRequestError } from "routing-controllers";
 
 type ServerType = "lobby" | "cookieclicker";
 
@@ -17,18 +17,10 @@ class ServerService {
     }
 
     create({ ip, port, type }: ServerBody): Server {
+        if (!type) throw new BadRequestError("Invalid body");
+        
         const possibleServer = this.findByAddress(ip, port);
-        if (possibleServer) {
-            return possibleServer;
-        }
-
-        // todo: update
-        if (!type) {
-            throw httpError({
-                httpCode: 400,
-                message: "invalid body :("
-            });
-        }
+        if (possibleServer) return possibleServer;
 
         const server = new Server(ip, port, type);
 
@@ -38,23 +30,12 @@ class ServerService {
 
     remove(ip: string, port: number): boolean {
         const server = this.findByAddress(ip, port);
-
-        if (server) {
-            return this.servers.delete(server);
-        }
-        return false;
+        if(!server) return false;
+        return this.servers.delete(server);
     }
 
     findByAddress(ip: string, port: number): Server | null {
-        let server: Server | null = null;
-
-        this.servers.forEach((s) => {
-            if (s.ip === ip && s.port === port) {
-                server = s;
-            }
-        });
-
-        return server;
+        return this.servers.find(server => server.ip === ip && server.port === port) ?? null;
     }
 
     getAll(): Set<Server> {
