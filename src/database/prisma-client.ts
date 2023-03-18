@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
-export default const prisma = new PrismaClient();
+const prisma = new PrismaClient();
+export default prisma;
 
 async function createDefaultRank() {
     await prisma.rank.upsert({
