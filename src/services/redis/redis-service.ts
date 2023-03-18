@@ -2,16 +2,12 @@ import { isUUID } from "class-validator";
 import { httpError } from "../../utils/error-utils";
 import { Service } from "typedi";
 import redis from "../../database/redis-client";
+import { BadRequestError } from "routing-controllers";
 
 @Service()
 class RedisService {
     async cachePlayerInformation(name: string, uuid: string) {
-        if (!isUUID(uuid)) {
-            throw httpError({
-                message: `${uuid} is not a valid uuid.`,
-                httpCode: 422
-            });
-        }
+        if (!isUUID(uuid)) throw new BadRequestError(`${uuid} is not a valid UUID.`);
 
         const previousName = await redis.get(`player:uuid:${uuid}:username`);
 
