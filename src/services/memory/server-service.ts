@@ -35,7 +35,7 @@ class ServerService {
     }
 
     findByAddress(ip: string, port: number): Server | null {
-        return this.servers.find(server => server.ip === ip && server.port === port) ?? null;
+        return [...this.servers].find(server => server.ip === ip && server.port === port) ?? null;
     }
 
     getAll(): Set<Server> {

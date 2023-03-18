@@ -1,5 +1,4 @@
-import { Authorized, Get, JsonController, QueryParams, NotFoundErrror } from "routing-controllers";
-import { httpError } from "../utils/error-utils";
+import { Authorized, Get, JsonController, QueryParams, NotFoundError } from "routing-controllers";
 import { Profile } from "@prisma/client";
 import { IsOptional, IsString, IsUUID } from "class-validator";
 import { Service } from "typedi";
@@ -35,7 +34,7 @@ class ProfileController {
             profile = await this.profileService.findByUUID(cachedUuid);
         }
 
-        if (!profile) throw new NotFoundErrror("resource not found");
+        if (!profile) throw new NotFoundError("resource not found");
 
         return profile;
     }
