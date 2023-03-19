@@ -19,7 +19,7 @@ FROM node:lts
 
 WORKDIR /app
 
-COPY configs ./configs
+# COPY configs ./configs
 COPY package.json ./package.json
 
 RUN yarn install --production
