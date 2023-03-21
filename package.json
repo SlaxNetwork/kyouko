@@ -4,13 +4,11 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "start:migrate:prod": "npx prisma migrate deploy && npm run start:prod",
+    "start:migrate:prod": "npx prisma migrate deploy && yarn start:prod",
     "start:prod": "node .",
-
-    "start:dev": "npm run start:build:dev && npm run start:migrate:dev && node .",
+    "start:dev": "yarn start:build:dev && yarn start:migrate:dev && node .",
     "start:migrate:dev": "npx prisma migrate deploy",
     "start:build:dev": "npx tsc",
-
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "build": "npx tsc"
