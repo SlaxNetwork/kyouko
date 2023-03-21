@@ -22,7 +22,7 @@ export class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
             });
         }
 
-        if (process.env.DEV) {
+        if (process.env.DEV == "true") {
             console.debug(`An error was thrown, message: ${error.message}`);
         }
 
