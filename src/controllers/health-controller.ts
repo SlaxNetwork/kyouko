@@ -4,7 +4,7 @@ import { Service } from "typedi";
 @JsonController()
 @Authorized()
 @Service()
-class HealthController {
+export class HealthController {
     @Get("/ping")
     ping() {
         return {
@@ -13,5 +13,3 @@ class HealthController {
         };
     }
 }
-
-export { HealthController };

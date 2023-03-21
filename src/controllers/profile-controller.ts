@@ -18,7 +18,7 @@ class GetProfileQuery {
 @JsonController("/profiles")
 @Authorized()
 @Service()
-class ProfileController {
+export class ProfileController {
     constructor(private profileService: ProfileService, private redisService: RedisService) {}
 
     @Get()
@@ -39,5 +39,3 @@ class ProfileController {
         return profile;
     }
 }
-
-export { ProfileController };

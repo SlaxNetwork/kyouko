@@ -10,7 +10,7 @@ import { NotFoundError, BadRequestError } from "routing-controllers";
  * Generic database actions on {@link Profile}.
  */
 @Service()
-class ProfileService {
+export class ProfileService {
     /**
      * Create a base {@link Profile}.
      * @param uuid Player UUID.
@@ -60,5 +60,3 @@ class ProfileService {
         return profile;
     }
 }
-
-export { ProfileService };

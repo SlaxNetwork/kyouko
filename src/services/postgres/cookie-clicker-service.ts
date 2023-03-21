@@ -3,7 +3,7 @@ import prisma from "../../database/prisma-client";
 import { Service } from "typedi";
 
 @Service()
-class CookieClickerService {
+export class CookieClickerService {
     private async create(uuid: string): Promise<CookieClickerProfile> {
         const cookieClickerProfile = await prisma.cookieClickerProfile.create({
             data: {}
@@ -42,5 +42,3 @@ class CookieClickerService {
         return profile.cookieClickerProfile;
     }
 }
-
-export { CookieClickerService };
