@@ -6,7 +6,7 @@ export default prisma;
 async function createDefaultRank() {
     await prisma.rank.upsert({
         where: {
-            id: 'default'
+            id: "default"
         },
         update: {
             name: "Default",

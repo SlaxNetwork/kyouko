@@ -5,7 +5,7 @@ class PlayerSession {
 }
 
 @Service()
-class SessionService {
+export class SessionService {
     private activeSessions: Map<string, PlayerSession>;
 
     constructor() {
@@ -27,5 +27,3 @@ class SessionService {
         return this.activeSessions.get(uuid);
     }
 }
-
-export { SessionService };

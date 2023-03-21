@@ -4,9 +4,9 @@ import { Service } from "typedi";
 // Interceptor breaks @OnUndefined and @OnNull :(
 @Interceptor()
 @Service()
-class WrapResponseInterceptor implements InterceptorInterface {
+export class WrapResponseInterceptor implements InterceptorInterface {
     intercept(action: Action, result: any) {
-        if (action.response.statusCode >= 200 && action.response.statusCode < 300 ) {
+        if (action.response.statusCode >= 200 && action.response.statusCode < 300) {
             return {
                 error: false,
                 data: result
@@ -19,5 +19,3 @@ class WrapResponseInterceptor implements InterceptorInterface {
         };
     }
 }
-
-export { WrapResponseInterceptor };

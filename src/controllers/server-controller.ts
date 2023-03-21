@@ -1,9 +1,9 @@
 import { Authorized, Body, BodyParam, Delete, Get, JsonController, Post } from "routing-controllers";
-import { Server, ServerService, ServerType } from "../services/memory/server-service";
-import { IsNumber, IsOptional, IsString, Validate, ValidationArguments } from "class-validator";
+import { ServerService, ServerType } from "../services/memory/server-service";
+import { IsNumber, IsString } from "class-validator";
 import { Service } from "typedi";
 
-class ServerBody {
+export class ServerBody {
     @IsString()
     ip!: string;
 
@@ -17,7 +17,7 @@ class ServerBody {
 @JsonController("/servers")
 @Authorized()
 @Service()
-class ServerController {
+export class ServerController {
     constructor(private serverService: ServerService) {}
 
     @Get()
@@ -35,5 +35,3 @@ class ServerController {
         return this.serverService.remove(ip, port);
     }
 }
-
-export { ServerController, ServerBody };

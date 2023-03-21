@@ -1,5 +1,5 @@
 // via https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-233.php
-function flattenObject(obj: any, prefix: string = ""): any {
+export function flattenObject(obj: any, prefix: string = ""): any {
     return Object.keys(obj).reduce((acc: any, k: any) => {
         const pre = prefix.length ? `${prefix}_` : "";
 
@@ -12,5 +12,3 @@ function flattenObject(obj: any, prefix: string = ""): any {
         return acc;
     }, {});
 }
-
-export { flattenObject };

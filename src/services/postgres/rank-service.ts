@@ -3,10 +3,8 @@ import { Service } from "typedi";
 import prisma from "../../database/prisma-client";
 
 @Service()
-class RankService {
+export class RankService {
     async getAll(): Promise<Rank[]> {
         return await prisma.rank.findMany({});
     }
 }
-
-export { RankService };

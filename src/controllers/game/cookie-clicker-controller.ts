@@ -5,7 +5,7 @@ import { CookieClickerService } from "../../services/postgres/cookie-clicker-ser
 @JsonController("/cookieclicker")
 @Authorized()
 @Service()
-class CookieClickerController {
+export class CookieClickerController {
     constructor(private cookieClickerService: CookieClickerService) {}
 
     @Get("/profile")
@@ -15,5 +15,3 @@ class CookieClickerController {
         return profile;
     }
 }
-
-export { CookieClickerController };

@@ -1,4 +1,15 @@
-import { Authorized, Body, Delete, Get, JsonController, Patch, Post, QueryParam, NotFoundError, HttpError } from "routing-controllers";
+import {
+    Authorized,
+    Body,
+    Delete,
+    Get,
+    JsonController,
+    Patch,
+    Post,
+    QueryParam,
+    NotFoundError,
+    HttpError
+} from "routing-controllers";
 import { IsString } from "class-validator";
 import { Service } from "typedi";
 import { SessionService } from "../services/memory/session-service";
@@ -17,7 +28,7 @@ class CreateSessionBody {
 @JsonController("/sessions")
 @Authorized()
 @Service()
-class SessionController {
+export class SessionController {
     constructor(private sessionService: SessionService, private redisService: RedisService) {}
 
     @Get()
@@ -47,5 +58,3 @@ class SessionController {
     @Patch("/update-server")
     async updateServer() {}
 }
-
-export { SessionController };

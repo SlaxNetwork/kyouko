@@ -9,9 +9,7 @@ function getBearer(req: Request): string | undefined {
  * Check whether a request to the API is authorized.
  * @returns Whether the request was authorized or not.
  */
-function checkRequestAuthorization(action: Action, roles: string[]): boolean {
+export function checkRequestAuthorization(action: Action, roles: string[]): boolean {
     const req = action.request as Request;
     return getBearer(req) === process.env.PRIVATE_KEY;
 }
-
-export { checkRequestAuthorization };

@@ -4,7 +4,7 @@ import { Service } from "typedi";
 
 @Middleware({ type: "after" })
 @Service()
-class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
+export class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
     error(error: any, request: any, response: any, next: (err?: any) => any): void {
         if (isHttpError(error)) {
             response.status(error.httpCode);
@@ -29,5 +29,3 @@ class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
         next();
     }
 }
-
-export { KyoukoErrorHandler };

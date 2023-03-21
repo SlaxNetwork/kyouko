@@ -1,11 +1,10 @@
 import { isUUID } from "class-validator";
-import { httpError } from "../../utils/error-utils";
 import { Service } from "typedi";
 import redis from "../../database/redis-client";
 import { BadRequestError } from "routing-controllers";
 
 @Service()
-class RedisService {
+export class RedisService {
     async cachePlayerInformation(name: string, uuid: string) {
         if (!isUUID(uuid)) throw new BadRequestError(`${uuid} is not a valid UUID.`);
 
@@ -32,5 +31,3 @@ class RedisService {
         return await redis.get(`player:uuid:${uuid}:name`);
     }
 }
-
-export { RedisService };

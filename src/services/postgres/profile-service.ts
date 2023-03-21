@@ -1,6 +1,5 @@
 import { Profile } from "@prisma/client";
 import { getMojangProfile } from "../../utils/mojang-utils";
-import { httpError } from "../../utils/error-utils";
 import { isUUID } from "class-validator";
 import { Service } from "typedi";
 import prisma from "../../database/prisma-client";
@@ -10,7 +9,7 @@ import { NotFoundError, BadRequestError } from "routing-controllers";
  * Generic database actions on {@link Profile}.
  */
 @Service()
-class ProfileService {
+export class ProfileService {
     /**
      * Create a base {@link Profile}.
      * @param uuid Player UUID.
@@ -60,5 +59,3 @@ class ProfileService {
         return profile;
     }
 }
-
-export { ProfileService };
