@@ -5,7 +5,7 @@ import { RankService } from "../services/postgres/rank-service";
 @JsonController("/ranks")
 @Authorized()
 @Service()
-class RankController {
+export class RankController {
     constructor(private rankService: RankService) {}
 
     @Get()
@@ -13,5 +13,3 @@ class RankController {
         return this.rankService.getAll();
     }
 }
-
-export { RankController };

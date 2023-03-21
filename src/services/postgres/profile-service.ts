@@ -1,6 +1,5 @@
 import { Profile } from "@prisma/client";
 import { getMojangProfile } from "../../utils/mojang-utils";
-import { httpError } from "../../utils/error-utils";
 import { isUUID } from "class-validator";
 import { Service } from "typedi";
 import prisma from "../../database/prisma-client";
