@@ -23,6 +23,10 @@ export class KyoukoErrorHandler implements ExpressErrorMiddlewareInterface {
         }
 
         if (process.env.DEV == "true") {
+            if ("errors" in error) {
+                console.warn(error.errors);
+            }
+
             console.debug(`An error was thrown, message: ${error.message}`);
         }
 

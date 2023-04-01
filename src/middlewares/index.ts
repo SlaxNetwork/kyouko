@@ -1,3 +1,3 @@
-import { KyoukoErrorHandler } from "./error-handler.middleware";
+import { KyoukoErrorHandler } from "./error-handler-middleware";
 
 export default [KyoukoErrorHandler];
