@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  kyouko:
+    environment:
+      PORT: 3000
+      PRIVATE_KEY: KYOUKO
+      DATABASE_URL: postgres://root:password@postgres:5432/slax
+      REDIS_URL: redis://redis:6379
+      DEV: true
+
+  postgres:
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: slax
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    environment:
+      REDIS_HOST_PASSWORD: password
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    depends_on:
+      - kyouko
+    links:
+      - kyouko
+    ports:
+      - 3000:3000

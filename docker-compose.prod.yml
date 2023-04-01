@@ -1,0 +1,28 @@
+version: '3'
+
+volumes:
+  data:
+
+services:
+  kyouko:
+    restart: on-failure:5
+
+    environment:
+      PORT: 3000
+      PRIVATE_KEY: ${KYOUKO_PRIVATE_KEY}
+      DATABASE_URL: ${POSTGRES_DB_URL}
+      REDIS_URL: ${REDIS_URL}
+      DEV: false
+
+  postgres:
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    environment:
+      REDIS_HOST_PASSWORD: ${REDIS_PASSWORD}
+
+  # nginx runs on the docker standalone inst.
