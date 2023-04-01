@@ -4,6 +4,7 @@ class PlayerSession {
     constructor(public readonly uuid: string, public currentServer: string) {}
 }
 
+// todo: migrate to redis.
 @Service()
 export class SessionService {
     private activeSessions: Map<string, PlayerSession>;
