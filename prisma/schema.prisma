@@ -2,12 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["multiSchema"]
 }
 
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
+    schemas  = ["public"]
 }
 
 model Profile {
@@ -18,7 +20,10 @@ model Profile {
 
     profileSettingsId      Int
     cookieClickerProfileId Int?
-    rankId                 String @default("default")
+    rankId                 String        @default("default")
+    KOTCProfile            KOTCProfile[]
+
+    @@schema("public")
 }
 
 model ProfileSettings {
@@ -26,6 +31,8 @@ model ProfileSettings {
 
     language String    @default("en_us")
     Profile  Profile[]
+
+    @@schema("public")
 }
 
 model Rank {
@@ -36,6 +43,8 @@ model Rank {
     color    String @default("#FFFFFF") @db.VarChar(7)
 
     Profile Profile[]
+
+    @@schema("public")
 }
 
 model CookieClickerProfile {
@@ -43,4 +52,6 @@ model CookieClickerProfile {
 
     cookies Int       @default(0)
     Profile Profile[]
+
+    @@schema("public")
 }
