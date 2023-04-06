@@ -32,7 +32,7 @@ export class SessionController {
     constructor(private sessionService: SessionService, private redisService: RedisService) {}
 
     @Get()
-    async getSession(@QueryParam("uuid") uuid: string) {
+    getSession(@QueryParam("uuid") uuid: string) {
         const session = this.sessionService.findByUUID(uuid);
         if (!session) throw new NotFoundError("resource not found");
 
@@ -40,7 +40,7 @@ export class SessionController {
     }
 
     @Post()
-    async createSession(@QueryParam("uuid") uuid: string, @Body() body: CreateSessionBody) {
+    createSession(@QueryParam("uuid") uuid: string, @Body() body: CreateSessionBody) {
         if (this.sessionService.findByUUID(uuid)) {
             throw new HttpError(409, "already exists");
         }
@@ -51,10 +51,10 @@ export class SessionController {
     }
 
     @Delete()
-    async deleteSession(@QueryParam("uuid") uuid: string) {
+    deleteSession(@QueryParam("uuid") uuid: string) {
         if (!this.sessionService.remove(uuid)) throw new NotFoundError("resource not found");
     }
 
     @Patch("/update-server")
-    async updateServer() {}
+    updateServer() {}
 }

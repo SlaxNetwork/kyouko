@@ -1,5 +1,7 @@
 import "reflect-metadata";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
+
 import { Container } from "typedi";
 
 import express from "express";
